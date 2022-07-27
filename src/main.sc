@@ -1,18 +1,28 @@
 require: slotfilling/slotFilling.sc
   module = sys.zb-common
+  
+require: localPatterns.sc  
+  
 theme: /
 
     state: Start
         q!: $regex</start>
-        a: Начнём.
+        a: Здравствуйте! Я могу Вам помочь подобрать репетитора?
+        
+        state: Agree
+            q: $agree
+            a: Отлично!
+        
+        state: Disagree
+            q: $disagree
+            a: Если понадобится помощь, то обращайтесь! 
 
     state: Hello
         intent!: /привет
-        a: Привет привет
+        a: Здравствуйте! Вам помочь с выбором репетитора?
 
-    state: Bye
-        intent!: /пока
-        a: Пока пока
+    state: LanguageNeed
+        
 
     state: NoMatch
         event!: noMatch
@@ -21,3 +31,7 @@ theme: /
     state: Match
         event!: match
         a: {{$context.intent.answer}}
+
+    state: Bye
+        intent!: /пока
+        a: Пока!
