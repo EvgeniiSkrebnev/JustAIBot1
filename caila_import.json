@@ -16,6 +16,24 @@
     "shared" : false
   },
   "intents" : [ {
+    "id" : 11453950,
+    "path" : "/reason",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@reason"
+    }, {
+      "text" : "для @reason"
+    } ],
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "Reason",
+      "entity" : "Reason",
+      "required" : true,
+      "prompts" : [ "Я не понял, с какой целью? Возможные варианты: экзамен, ЕГЭ. туризм, работа, с нуля." ]
+    } ],
+    "priority" : 0
+  }, {
     "id" : 11404276,
     "path" : "/пока",
     "enabled" : true,
@@ -34,7 +52,77 @@
     } ],
     "priority" : 0
   } ],
-  "entities" : [ ],
+  "entities" : [ {
+    "entity" : {
+      "id" : 163263,
+      "name" : "Lang",
+      "enabled" : true,
+      "shared" : false,
+      "type" : "annotation",
+      "priority" : 1,
+      "noSpelling" : true,
+      "noMorph" : false,
+      "phoneticSearch" : false,
+      "fuzzySearch" : false,
+      "client" : false
+    },
+    "records" : [ {
+      "id" : 13882183,
+      "type" : "pattern",
+      "rule" : [ "[по] английск*" ],
+      "value" : ""
+    }, {
+      "id" : 13882184,
+      "type" : "pattern",
+      "rule" : [ "[по] немецк*" ],
+      "value" : ""
+    }, {
+      "id" : 13882185,
+      "type" : "pattern",
+      "rule" : [ "[по] французск*" ],
+      "value" : ""
+    } ]
+  }, {
+    "entity" : {
+      "id" : 163387,
+      "name" : "Reason",
+      "enabled" : true,
+      "shared" : false,
+      "type" : "annotation",
+      "priority" : 1,
+      "noSpelling" : true,
+      "noMorph" : false,
+      "phoneticSearch" : false,
+      "fuzzySearch" : false,
+      "client" : false
+    },
+    "records" : [ {
+      "id" : 13883044,
+      "type" : "pattern",
+      "rule" : [ "*ЕГЭ*" ],
+      "value" : ""
+    }, {
+      "id" : 13883047,
+      "type" : "pattern",
+      "rule" : [ "* нуля *" ],
+      "value" : ""
+    }, {
+      "id" : 13883048,
+      "type" : "pattern",
+      "rule" : [ "просто " ],
+      "value" : ""
+    }, {
+      "id" : 13883046,
+      "type" : "pattern",
+      "rule" : [ "* Работ *" ],
+      "value" : ""
+    }, {
+      "id" : 13883045,
+      "type" : "pattern",
+      "rule" : [ "*Экзамен*" ],
+      "value" : ""
+    } ]
+  } ],
   "enabledSystemEntities" : [ "duckling.number", "duckling.time", "duckling.duration", "duckling.phone-number", "duckling.email", "duckling.url" ],
   "spellerDictionary" : [ ],
   "systemEntities" : [ {
