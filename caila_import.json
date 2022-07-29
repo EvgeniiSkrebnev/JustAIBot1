@@ -16,24 +16,6 @@
     "shared" : false
   },
   "intents" : [ {
-    "id" : 11453950,
-    "path" : "/reason",
-    "enabled" : true,
-    "shared" : false,
-    "phrases" : [ {
-      "text" : "@reason"
-    }, {
-      "text" : "для @reason"
-    } ],
-    "patterns" : [ ],
-    "slots" : [ {
-      "name" : "Reason",
-      "entity" : "Reason",
-      "required" : true,
-      "prompts" : [ "Я не понял, с какой целью? Возможные варианты: экзамен, ЕГЭ. туризм, работа, с нуля." ]
-    } ],
-    "priority" : 0
-  }, {
     "id" : 11404276,
     "path" : "/пока",
     "enabled" : true,
@@ -50,12 +32,104 @@
     "phrases" : [ {
       "text" : "привет"
     } ],
+    "patterns" : [ ],
+    "priority" : 0
+  }, {
+    "id" : 11457345,
+    "path" : "/reason",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "@reason"
+    }, {
+      "text" : "для @reason"
+    } ],
+    "patterns" : [ ],
+    "slots" : [ {
+      "name" : "reason",
+      "entity" : "reason",
+      "required" : true,
+      "prompts" : [ "Да?" ]
+    } ],
+    "priority" : 0
+  }, {
+    "id" : 11456369,
+    "path" : "/direction",
+    "enabled" : true,
+    "shared" : false,
+    "phrases" : [ {
+      "text" : "купить билет"
+    }, {
+      "text" : "хочу билет"
+    }, {
+      "text" : "вылет из @departure в @destination @duckling.time"
+    } ],
+    "patterns" : [ "* ~билет *" ],
+    "slots" : [ {
+      "name" : "departure",
+      "entity" : "departure",
+      "required" : true,
+      "prompts" : [ "Откуда летим?" ],
+      "array" : false
+    }, {
+      "name" : "destination",
+      "entity" : "destination",
+      "required" : true,
+      "prompts" : [ "Куда отправляемся?" ],
+      "array" : false
+    }, {
+      "name" : "date",
+      "entity" : "duckling.time",
+      "required" : true,
+      "prompts" : [ "Когда хотите полететь?" ],
+      "array" : false
+    } ],
     "priority" : 0
   } ],
   "entities" : [ {
     "entity" : {
+      "id" : 163411,
+      "name" : "departure",
+      "enabled" : true,
+      "shared" : false,
+      "type" : "annotation",
+      "priority" : 1,
+      "noSpelling" : true,
+      "noMorph" : false,
+      "phoneticSearch" : false,
+      "fuzzySearch" : false,
+      "client" : false
+    },
+    "records" : [ {
+      "id" : 13883072,
+      "type" : "pattern",
+      "rule" : [ "@mystem.geo" ],
+      "value" : ""
+    } ]
+  }, {
+    "entity" : {
+      "id" : 163412,
+      "name" : "destination",
+      "enabled" : true,
+      "shared" : false,
+      "type" : "annotation",
+      "priority" : 1,
+      "noSpelling" : true,
+      "noMorph" : false,
+      "phoneticSearch" : false,
+      "fuzzySearch" : false,
+      "client" : false
+    },
+    "records" : [ {
+      "id" : 13883073,
+      "type" : "pattern",
+      "rule" : [ "@mystem.geo" ],
+      "value" : ""
+    } ]
+  }, {
+    "entity" : {
       "id" : 163263,
-      "name" : "Lang",
+      "name" : "lang",
       "enabled" : true,
       "shared" : false,
       "type" : "annotation",
@@ -84,8 +158,8 @@
     } ]
   }, {
     "entity" : {
-      "id" : 163387,
-      "name" : "Reason",
+      "id" : 163417,
+      "name" : "reason",
       "enabled" : true,
       "shared" : false,
       "type" : "annotation",
@@ -97,37 +171,27 @@
       "client" : false
     },
     "records" : [ {
-      "id" : 13883044,
+      "id" : 13883102,
       "type" : "pattern",
-      "rule" : [ "*ЕГЭ*" ],
+      "rule" : [ "работ*" ],
       "value" : ""
     }, {
-      "id" : 13883047,
+      "id" : 13883103,
       "type" : "pattern",
-      "rule" : [ "* нуля *" ],
+      "rule" : [ "туризм*" ],
       "value" : ""
     }, {
-      "id" : 13883048,
+      "id" : 13883104,
       "type" : "pattern",
-      "rule" : [ "просто " ],
-      "value" : ""
-    }, {
-      "id" : 13883046,
-      "type" : "pattern",
-      "rule" : [ "* Работ *" ],
-      "value" : ""
-    }, {
-      "id" : 13883045,
-      "type" : "pattern",
-      "rule" : [ "*Экзамен*" ],
+      "rule" : [ "учеб*" ],
       "value" : ""
     } ]
   } ],
-  "enabledSystemEntities" : [ "duckling.number", "duckling.time", "duckling.duration", "duckling.phone-number", "duckling.email", "duckling.url" ],
+  "enabledSystemEntities" : [ "mystem.geo", "duckling.number", "duckling.time", "duckling.duration", "duckling.phone-number", "duckling.email", "duckling.url" ],
   "spellerDictionary" : [ ],
   "systemEntities" : [ {
     "name" : "mystem.geo",
-    "enabled" : false
+    "enabled" : true
   }, {
     "name" : "mystem.persn",
     "enabled" : false

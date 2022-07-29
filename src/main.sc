@@ -41,22 +41,24 @@ theme: /
             script:
                 $session.agent = $parseTree._me
             a: Ищем репетитора Вам.
-            go: /WhichGoal
-                
+            go!: /Why
+            
         state: ToChild
             q: $toChild
             script:
                 $session.agent = $parseTree._toChild
             a: Ищем репетитора {{$session.agent}}.
-            go: /WhichGoal
- 
+            go!: /Why
     
-    state: WhichGoal
-        a: С какой целью?
-        intent: /reason
-        script:
-            $session.reason = $parseTree._reason
-        a: {{$session.lang}} для {{$session.reason}}
+    state: Why
+        a: С какой целью ищите репетитора?
+        
+        state: Because
+            intent: /reason
+            script:
+                $session.reason = $parseTree._reason
+            a: Причина: {{$session.reason}}
+            go!: /Price
     
     state: Time
         a: В какое время вам удобнее?
@@ -66,23 +68,37 @@ theme: /
     state: Price
         a: Каков ваш бюджет на одно занятие?
         buttons:
-            "До 700 рублей"
-            "700 - 1500 рублей"
-            "Более 1500 рублей"
+            "До 700 рублей" -> /PriceEnd
+            "700 - 1500 рублей" -> /PriceEnd
+            "Более 1500 рублей" -> /PriceEnd
     
+    state: PriceEnd
+        script:
+            $session.price = $request.query
+        go!: /Native
+        
     state: Native
         a: Вы хотите заниматься с носителем?
         buttons:
-            "Да"
-            "Нет"
-            "Кто такой носитель?"
+            "Да" -> /NativeEnd
+            "Нет" -> /NativeEnd
+            "Кто такой носитель?" -> /WhoIsNative
             
         state: WhoIsNative
             a: Носитель языка - это тот для кого иностранный язык является родным.
-            go!: /Native
+            go!: ./Native
+            
+    state: NativeEnd
+            script:
+                $session.native = $request.query
+            go!: /Check
     
     state: Check
-        a:
+        a: Язык: {{$session.lang}}
+        a: Кому: {{$session.agent}}
+        a: Цель: {{$session.reason}}
+        a: Цена: {{$session.price}}
+        a: С носителем? {{$session.native}}
             
     state: Match
         event!: match
