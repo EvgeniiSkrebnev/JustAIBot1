@@ -49,84 +49,11 @@
       "name" : "reason",
       "entity" : "reason",
       "required" : true,
-      "prompts" : [ "Да?" ]
-    } ],
-    "priority" : 0
-  }, {
-    "id" : 11456369,
-    "path" : "/direction",
-    "enabled" : true,
-    "shared" : false,
-    "phrases" : [ {
-      "text" : "купить билет"
-    }, {
-      "text" : "хочу билет"
-    }, {
-      "text" : "вылет из @departure в @destination @duckling.time"
-    } ],
-    "patterns" : [ "* ~билет *" ],
-    "slots" : [ {
-      "name" : "departure",
-      "entity" : "departure",
-      "required" : true,
-      "prompts" : [ "Откуда летим?" ],
-      "array" : false
-    }, {
-      "name" : "destination",
-      "entity" : "destination",
-      "required" : true,
-      "prompts" : [ "Куда отправляемся?" ],
-      "array" : false
-    }, {
-      "name" : "date",
-      "entity" : "duckling.time",
-      "required" : true,
-      "prompts" : [ "Когда хотите полететь?" ],
-      "array" : false
+      "prompts" : [ "Не понимаю. Варианты: туризм, работа, для себя, ЕГЭ. экзамен, с нуля. Если у вас другая причина, то напишите \"другое\"." ]
     } ],
     "priority" : 0
   } ],
   "entities" : [ {
-    "entity" : {
-      "id" : 163411,
-      "name" : "departure",
-      "enabled" : true,
-      "shared" : false,
-      "type" : "annotation",
-      "priority" : 1,
-      "noSpelling" : true,
-      "noMorph" : false,
-      "phoneticSearch" : false,
-      "fuzzySearch" : false,
-      "client" : false
-    },
-    "records" : [ {
-      "id" : 13883072,
-      "type" : "pattern",
-      "rule" : [ "@mystem.geo" ],
-      "value" : ""
-    } ]
-  }, {
-    "entity" : {
-      "id" : 163412,
-      "name" : "destination",
-      "enabled" : true,
-      "shared" : false,
-      "type" : "annotation",
-      "priority" : 1,
-      "noSpelling" : true,
-      "noMorph" : false,
-      "phoneticSearch" : false,
-      "fuzzySearch" : false,
-      "client" : false
-    },
-    "records" : [ {
-      "id" : 13883073,
-      "type" : "pattern",
-      "rule" : [ "@mystem.geo" ],
-      "value" : ""
-    } ]
-  }, {
     "entity" : {
       "id" : 163263,
       "name" : "lang",
@@ -171,19 +98,49 @@
       "client" : false
     },
     "records" : [ {
+      "id" : 13894067,
+      "type" : "pattern",
+      "rule" : [ "[для] [сда*] ЕГЭ" ],
+      "value" : ""
+    }, {
+      "id" : 13894066,
+      "type" : "pattern",
+      "rule" : [ "[для] себ*" ],
+      "value" : ""
+    }, {
+      "id" : 13894068,
+      "type" : "pattern",
+      "rule" : [ "другое" ],
+      "value" : ""
+    }, {
+      "id" : 13894069,
+      "type" : "pattern",
+      "rule" : [ "(повыс*/повышен*) [уров*]" ],
+      "value" : ""
+    }, {
       "id" : 13883102,
       "type" : "pattern",
-      "rule" : [ "работ*" ],
+      "rule" : [ "[по/для] работ*" ],
       "value" : ""
     }, {
       "id" : 13883103,
       "type" : "pattern",
-      "rule" : [ "туризм*" ],
+      "rule" : [ "[по/для] туризм*" ],
       "value" : ""
     }, {
       "id" : 13883104,
       "type" : "pattern",
-      "rule" : [ "учеб*" ],
+      "rule" : [ "[по/для] учеб*" ],
+      "value" : ""
+    }, {
+      "id" : 13894064,
+      "type" : "pattern",
+      "rule" : [ "[по/для] экзамен*" ],
+      "value" : ""
+    }, {
+      "id" : 13894065,
+      "type" : "pattern",
+      "rule" : [ "[с] нуля" ],
       "value" : ""
     } ]
   } ],

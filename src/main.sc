@@ -20,6 +20,9 @@ theme: /
         random:
             a: Здравствуйте! Вам помочь с выбором репетитора?
             a: Здравствуйте! Я могу Вам помочь подобрать репетитора?
+        buttons:
+            "Да"
+            "Нет"
         
         state: Disagree
             q: $disagree
@@ -42,7 +45,7 @@ theme: /
                 a: К сожалению, у нас нет преподователей этого языка. 
         
     state: ToWhom
-        a: Для кого ищете репетитора?
+        a: Для кого ищете репетитора? Себе или ребенку?
         
         state: ToMe
             q: $me
@@ -100,13 +103,13 @@ theme: /
         a: Кому: {{$session.agent}}
         a: Цель: {{$session.reason}}
         a: Цена: {{$session.price}}
-        a: С носителем? {{$session.native}}
+        a: С носителем? {{$session.native}}  # узнать всё ли верно и вывести кнопки если надо что-то изменить с переносом на нужный стейт 
         go!: /AskPhone
         
     state: AskPhone || modal = true
         a: Для продолжения введите, пожалуйста, ваш номер телефона. С вами свяжется специалст по подбору репетитора.
         buttons:
-            "Отмена"
+            "Отмена" -> /Cancel
             
         state: GetPhone
             q: * $mobilePhoneNumber *
@@ -138,16 +141,28 @@ theme: /
             
         state: PhoneDisagree
             q: (нет/неверно/не верно)
-            go!: /AskPhone  
+            go!: /AskPhone
+        
+    state: Cancel
+        q!: (отмена)
+        a: Тогда мы не сможем с вами связаться.
+        a: Хотите все-таки ввести номер?
+        buttons:
+            "Да" -> /AskPhone
+            "Нет" 
+            
+        state: Email
+            q: (нет)
+            a: В таком случае вы можете написать нам на почту: customer@langschool.ru. Всего доброго!
             
     state: AskName
-        a: Как к вам можно Обращаться?
+        a: Как к вам можно обращаться?
         
         state: GetName
             q: * $Name *
             script:
                 $client.name = $parseTree._Name
-            a: Спасибо за информацию! В ближайшее время с вами свяжется специалист. Всего доброго!
+            a: Спасибо за информацию, {{$client.name}}! В ближайшее время с вами свяжется специалист. Всего доброго!
         
     state: CatchAll || noContext = true
         event!: noMatch
