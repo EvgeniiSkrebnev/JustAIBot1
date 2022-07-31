@@ -1,2 +1,7 @@
 <test>
+    <test-case>
+        <q>/start</q>
+        <a state="/Welcome"/>
+        
+    </test-case>
 </test>
