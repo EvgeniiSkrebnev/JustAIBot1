@@ -16,25 +16,6 @@
     "shared" : false
   },
   "intents" : [ {
-    "id" : 11404276,
-    "path" : "/пока",
-    "enabled" : true,
-    "shared" : false,
-    "phrases" : [ {
-      "text" : "пока"
-    } ],
-    "priority" : 0
-  }, {
-    "id" : 11404277,
-    "path" : "/привет",
-    "enabled" : true,
-    "shared" : false,
-    "phrases" : [ {
-      "text" : "привет"
-    } ],
-    "patterns" : [ ],
-    "priority" : 0
-  }, {
     "id" : 11457345,
     "path" : "/reason",
     "enabled" : true,
@@ -49,7 +30,7 @@
       "name" : "reason",
       "entity" : "reason",
       "required" : true,
-      "prompts" : [ "Не понимаю. Варианты: туризм, работа, для себя, ЕГЭ. экзамен, с нуля. Если у вас другая причина, то напишите \"другое\"." ]
+      "prompts" : [ ]
     } ],
     "priority" : 0
   } ],
