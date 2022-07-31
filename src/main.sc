@@ -17,6 +17,14 @@ theme: /
     state: Welcome
         q!: $regex</start>
         q!: $hello
+        script:
+            $jsapi.startSession();
+            $response.replies = $response.replies || [];
+            $response.replies.push({
+                type: "image",
+                imageUrl: 
+                    "https://static.tildacdn.com/tild3331-3339-4361-b262-353036396365/lingua_star_logo_.png"
+            });
         random:
             a: Здравствуйте! Вам помочь с выбором репетитора?
             a: Здравствуйте! Я могу Вам помочь подобрать репетитора?
@@ -34,7 +42,7 @@ theme: /
             a: Какой язык Вы хотите изучить? Мы преподаем английский, французский и немецкий.
             
             state: LangMatch
-                q: $lang
+                q!: $lang
                 script:
                     $session.lang = $parseTree._lang
                 a: Отличный выбор! Ищем преподователя по {{$nlp.inflect($session.lang, 'datv')}}
@@ -43,6 +51,8 @@ theme: /
             state: NoLangMatch
                 event: noMatch
                 a: К сожалению, у нас нет преподователей этого языка. 
+                a: Можете выбрать другой.
+                go: /LangMatch
         
     state: ToWhom
         a: Для кого ищете репетитора? Себе или ребенку?
@@ -63,6 +73,7 @@ theme: /
     
     state: Why
         a: С какой целью ищите репетитора?
+        a: Наприме: работа, туризм, ЕГЭ, экзамены, повышение успеваемости/уровня, для себя.
         state: Because
             intent: /reason
             script:
@@ -87,11 +98,12 @@ theme: /
         buttons:
             "Да" -> /NativeEnd
             "Нет" -> /NativeEnd
-            "Кто такой носитель?" -> /WhoIsNative
+            "Кто такой носитель?"
             
-    state: WhoIsNative
-        a: Носитель языка - это тот для кого иностранный язык является родным.
-        go!: /Native
+        state: WhoIsNative
+            q: * (носитель) *
+            a: Носитель языка - это тот для кого иностранный язык является родным.
+            go!: /Native
             
     state: NativeEnd
             script:
@@ -103,9 +115,75 @@ theme: /
         a: Кому: {{$session.agent}}
         a: Цель: {{$session.reason}}
         a: Цена: {{$session.price}}
-        a: С носителем? {{$session.native}}  # узнать всё ли верно и вывести кнопки если надо что-то изменить с переносом на нужный стейт 
-        go!: /AskPhone
+        a: С носителем? {{$session.native}}  
+        a: Всё верно или хотите что-то изменить?
+        buttons:
+            "Всё верно" -> /AskPhone
+            "Изменить язык"
+            "Изменить кому"
+            "Изменить цель"
+            "Изменить цену"
+            "Изменить носителя" -> /Native
         
+        state: ChangeLang
+            q: (изменить язык)
+            a: Какой язык Вы хотите изучить? Мы преподаем английский, французский и немецкий.
+            
+            state: LangMatch
+                q: $lang
+                script:
+                    $session.lang = $parseTree._lang
+                a: Ищем преподователя по {{$nlp.inflect($session.lang, 'datv')}}
+                go!: /Check
+                
+            state: NoLangMatch
+                event: noMatch
+                a: К сожалению, у нас нет преподователей этого языка. 
+                a: Можете выбрать другой.
+                go: /ChangeLang
+                
+        state: ChangeToWhom
+            q: (Изменить кому)
+            a: Для кого ищете репетитора? Себе или ребенку?
+        
+            state: ToMe
+                q: $me
+                script:
+                    $session.agent = $parseTree._me
+                a: Ищем репетитора Вам.
+                go!: /Check
+                
+            state: ToChild
+                q: $toChild
+                script:
+                    $session.agent = $parseTree._toChild
+                a: Ищем репетитора {{$nlp.inflect($session.agent, 'datv')}}.
+                go!: /Check
+                
+        state: ChangeGoal
+            q: (Изменить цель)
+            a: С какой целью ищите репетитора?
+            a: Наприме: работа, туризм, ЕГЭ, экзамены, повышение успеваемости/уровня, для себя.
+            state: Because
+                intent: /reason
+                script:
+                    $session.reason = $parseTree._reason
+                a: Причина: {{$session.reason}}
+                go!: /Check
+                
+        state: ChangePrice
+            q: (Изменить цену)
+            a: Каков ваш бюджет на одно занятие?
+            buttons:
+                "До 700 рублей" -> /PriceEnd
+                "700 - 1500 рублей" -> /PriceEnd
+                "Более 1500 рублей" -> /PriceEnd
+    
+        state: PriceEnd
+            script:
+                $session.price = $request.query
+            go!: /Check
+            
     state: AskPhone || modal = true
         a: Для продолжения введите, пожалуйста, ваш номер телефона. С вами свяжется специалст по подбору репетитора.
         buttons:
@@ -162,7 +240,20 @@ theme: /
             q: * $Name *
             script:
                 $client.name = $parseTree._Name
-            a: Спасибо за информацию, {{$client.name}}! В ближайшее время с вами свяжется специалист. Всего доброго!
+            a: Спасибо за информацию! В ближайшее время с вами свяжется специалист. Всего доброго!
+            go!: /Convert
+            
+    state: Convert
+        script:
+            $client.lang = $session.lang
+            $client.agent = $session.agent
+            $client.reason = $session.reason
+            $client.price = $session.price
+            $client.native = $session.native
+            
+            # из сессионых переменных перевести в клиентские +
+            # сделать тесты
+            # подключить телегу
         
     state: CatchAll || noContext = true
         event!: noMatch
@@ -172,7 +263,3 @@ theme: /
     state: Match
         event!: match
         a: {{$context.intent.answer}}
-
-    state: Bye
-        intent!: /пока
-        a: Пока!
