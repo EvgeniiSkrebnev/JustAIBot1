@@ -2,6 +2,7 @@
     <test-case>
         <q>/start</q>
         <a state="/Welcome"/>
-        
+        <q>Нет</q>
+        <a state="/Welcome/Disagree"/>
     </test-case>
 </test>
