@@ -43,6 +43,61 @@
         <a state="/AskName"/>
         <q>Гена</q>
         <a>Спасибо за информацию! В ближайшее время с вами свяжется специалист. Всего доброго!</a>
-        <a state="/Convert"/>
+    </test-case>
+    
+    <test-case>
+        
+        <q>/start</q>
+        <a state="/Welcome"/>
+        <q>Да</q>
+        <a>Отлично!</a>
+        <a>Какой язык Вы хотите изучить? Мы преподаем английский, французский и немецкий.</a>
+        <q>Татарский</q>
+        <a>К сожалению, у нас нет преподователей этого языка. </a>
+        <a>Можете выбрать другой.</a>
+        <q>Французский</q>
+        <a state="/Welcome/Agree/LangMatch"/>
+        <a state="/ToWhom"/>
+        
+    </test-case>
+    
+    <test-case>
+        
+    <q>/start</q>
+        <a state="/Welcome"/>
+        <q>Да</q>
+        <a>Отлично!</a>
+        <a>Какой язык Вы хотите изучить? Мы преподаем английский, французский и немецкий.</a>
+        <q>Французский</q>
+        <a state="/Welcome/Agree/LangMatch"/>
+        <a state="/ToWhom"/>
+        <q>Сыну</q>
+        <a state="/ToWhom/ToChild"/>
+        <a state="/Why"/>
+        <a state="/Why"/>
+        <a state="/Why"/>
+        <q>ЕГЭ</q>
+        <a state="/Why/Because"/>
+        <a state="/Price"/>
+        <q>700 - 1500 рублей</q>
+        <a state="/Form"/>
+        <q>Индивидуальный</q>
+        <a state="/Native"/>
+        <q>Да</q>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a>Всё верно или хотите что-то изменить?</a>
+        <q>Всё верно</q>
+        <a state="/AskPhone"/>
+        <q>Отмена</q>
+        <a state="/Cancel"/>
+        <a state="/Cancel"/>
+        <q>Нет</q>
+        <a>В таком случае вы можете написать нам на почту: customer@langschool.ru. Всего доброго!</a>
+        
     </test-case>
 </test>
