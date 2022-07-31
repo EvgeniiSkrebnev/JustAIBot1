@@ -179,10 +179,10 @@ theme: /
                 "700 - 1500 рублей" -> /PriceEnd1
                 "Более 1500 рублей" -> /PriceEnd1
     
-        state: PriceEnd1
-            script:
-                $session.price = $request.query
-            go!: /Check
+            state: PriceEnd1
+                script:
+                    $session.price = $request.query
+                go!: /Check
             
     state: AskPhone || modal = true
         a: Для продолжения введите, пожалуйста, ваш номер телефона. С вами свяжется специалст по подбору репетитора.
