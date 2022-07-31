@@ -22,15 +22,16 @@ theme: /
             $response.replies = $response.replies || [];
             $response.replies.push({
                 type: "image",
-                imageUrl: 
-                    "https://static.tildacdn.com/tild3331-3339-4361-b262-353036396365/lingua_star_logo_.png"
+                imageUrl: "https://static.tildacdn.com/tild3331-3339-4361-b262-353036396365/lingua_star_logo_.png"
             });
         random:
             a: Здравствуйте! Вам помочь с выбором репетитора?
-            a: Здравствуйте! Я могу Вам помочь подобрать репетитора?
+            a: Здравствуйте! Я могу вам помочь подобрать репетитора?
         buttons:
             "Да"
             "Нет"
+        
+        # Альтернативный путь №1: пользователь отказывается от помощи. 
         
         state: Disagree
             q: $disagree
@@ -47,12 +48,15 @@ theme: /
                     $session.lang = $parseTree._lang
                 a: Отличный выбор! Ищем преподователя по {{$nlp.inflect($session.lang, 'datv')}}
                 go!: /ToWhom
+        
+        # Альтернативный путь №2: Нет языка, который нужен пользователю.
                 
             state: NoLangMatch
                 event: noMatch
                 a: К сожалению, у нас нет преподователей этого языка. 
                 a: Можете выбрать другой.
                 go: /LangMatch
+                
         
     state: ToWhom
         a: Для кого ищете репетитора? Себе или ребенку?
@@ -61,7 +65,7 @@ theme: /
             q: $me
             script:
                 $session.agent = $parseTree._me
-            a: Ищем репетитора Вам.
+            a: Ищем репетитора вам.
             go!: /Why
             
         state: ToChild
@@ -73,7 +77,8 @@ theme: /
     
     state: Why
         a: С какой целью ищите репетитора?
-        a: Наприме: работа, туризм, ЕГЭ, экзамены, повышение успеваемости/уровня, для себя.
+        a: Например: работа, туризм, ЕГЭ, экзамены, повышение успеваемости/уровня, для себя.
+        a: Если у вас другой вариант, то напишите "Другое".
         state: Because
             intent: /reason
             script:
@@ -84,38 +89,45 @@ theme: /
     state: Price
         a: Каков ваш бюджет на одно занятие?
         buttons:
-            "До 700 рублей" -> /PriceEnd
-            "700 - 1500 рублей" -> /PriceEnd
-            "Более 1500 рублей" -> /PriceEnd
-    
-    state: PriceEnd
+            "До 700 рублей" -> /Form
+            "700 - 1500 рублей" -> /Form
+            "Более 1500 рублей" -> /Form
+        
+    state: Form
         script:
             $session.price = $request.query
-        go!: /Native
+        a: Какой формат обучения?
+        buttons:
+            "Групповой" -> /Native
+            "Индивидуальный" -> /Native
         
     state: Native
+        script:
+            $session.form = $request.query
         a: Вы хотите заниматься с носителем?
         buttons:
-            "Да" -> /NativeEnd
-            "Нет" -> /NativeEnd
+            "Да" -> /Check
+            "Нет" -> /Check
             "Кто такой носитель?"
+            
+        # Альтернативный путь №3: пользователь уточняет, кто такой носитель языка.    
             
         state: WhoIsNative
             q: * (носитель) *
             a: Носитель языка - это тот для кого иностранный язык является родным.
             go!: /Native
-            
-    state: NativeEnd
-            script:
-                $session.native = $request.query
-            go!: /Check
+    
     
     state: Check
+        script:
+                $session.native = $request.query
         a: Язык: {{$session.lang}}
         a: Кому: {{$session.agent}}
         a: Цель: {{$session.reason}}
         a: Цена: {{$session.price}}
+        a: Формат: {{$session.form}}
         a: С носителем? {{$session.native}}  
+     # Альтернативный путь №4: Пользователь меняет один из параметров выбора репетитора.    
         a: Всё верно или хотите что-то изменить?
         buttons:
             "Всё верно" -> /AskPhone
@@ -123,6 +135,7 @@ theme: /
             "Изменить кому"
             "Изменить цель"
             "Изменить цену"
+            "Изменить формат"
             "Изменить носителя" -> /Native
         
         state: ChangeLang
@@ -164,28 +177,42 @@ theme: /
             q: (Изменить цель)
             a: С какой целью ищите репетитора?
             a: Наприме: работа, туризм, ЕГЭ, экзамены, повышение успеваемости/уровня, для себя.
+            
             state: Because
                 intent: /reason
                 script:
                     $session.reason = $parseTree._reason
-                a: Причина: {{$session.reason}}
                 go!: /Check
                 
         state: ChangePrice
             q: (Изменить цену)
             a: Каков ваш бюджет на одно занятие?
             buttons:
-                "До 700 рублей" -> /PriceEnd1
-                "700 - 1500 рублей" -> /PriceEnd1
-                "Более 1500 рублей" -> /PriceEnd1
+                "До 700 рублей"
+                "700 - 1500 рублей"
+                "Более 1500 рублей"
     
-            state: PriceEnd1
+            state: ChangedPriceEnd
+                q: * (700/1500) *
                 script:
                     $session.price = $request.query
                 go!: /Check
+        
+        state: ChangeForm
+            q: (Изменить формат)
+            a: Какой формат обучения?
+            buttons:
+                "Групповой"
+                "Индивидуальный"
+            
+            state: FormChanged
+                q: (Групповой/Индивидуальный)
+                script:
+                    $session.form = $request.query
+                go!: /Check
             
     state: AskPhone || modal = true
-        a: Для продолжения введите, пожалуйста, ваш номер телефона. С вами свяжется специалст по подбору репетитора.
+        a: Для продолжения введите, пожалуйста, ваш номер телефона. С вами свяжется специалист по подбору репетитора.
         buttons:
             "Отмена" -> /Cancel
             
@@ -216,11 +243,16 @@ theme: /
                 $client.phone = $session.probablyPhone;
                 delete $session.probablyPhone;
             go!: /AskName
+        
+         # Альтернативный путь №5: Пользователь ввел неверный номер и хочет его изменить.
             
         state: PhoneDisagree
             q: (нет/неверно/не верно)
             go!: /AskPhone
+            
         
+    
+     # Альтернативный путь №6: Пользователь не хочет давать свой номер телефона.
     state: Cancel
         q!: (отмена)
         a: Тогда мы не сможем с вами связаться.
@@ -249,17 +281,14 @@ theme: /
             $client.agent = $session.agent
             $client.reason = $session.reason
             $client.price = $session.price
+            $client.from = $session.form
             $client.native = $session.native
-            
-            # из сессионых переменных перевести в клиентские +
-            # сделать тесты
-            # подключить телегу
-        
+    
     state: CatchAll || noContext = true
         event!: noMatch
         a: Простите, я не понял. Переформулируйте, пожалуйста.
-        go!: {{$session.lastState}}
-            
+        go!: {{$session.lastState}}        
+        
     state: Match
         event!: match
         a: {{$context.intent.answer}}
