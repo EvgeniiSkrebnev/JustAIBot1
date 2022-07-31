@@ -7,6 +7,22 @@
     </test-case>
     
     <test-case>
+        
+        <q>/start</q>
+        <a state="/Welcome"/>
+        <q>Да</q>
+        <a>Отлично!</a>
+        <a>Какой язык Вы хотите изучить? Мы преподаем английский, французский и немецкий.</a>
+        <q>Татарский</q>
+        <a>К сожалению, у нас нет преподователей этого языка. </a>
+        <a>Можете выбрать другой.</a>
+        <q>Французский</q>
+        <a state="/Welcome/Agree/LangMatch"/>
+        <a state="/ToWhom"/>
+        
+    </test-case>
+    
+    <test-case>
         <q>/start</q>
         <a state="/Welcome"/>
         <q>Да</q>
@@ -41,24 +57,89 @@
         <a state="/Confirm"/>
         <q>Да</q>
         <a state="/AskName"/>
-        <q>Гена</q>
+        <q>Ева</q>
         <a>Спасибо за информацию! В ближайшее время с вами свяжется специалист. Всего доброго!</a>
     </test-case>
     
     <test-case>
-        
         <q>/start</q>
         <a state="/Welcome"/>
         <q>Да</q>
         <a>Отлично!</a>
         <a>Какой язык Вы хотите изучить? Мы преподаем английский, французский и немецкий.</a>
-        <q>Татарский</q>
-        <a>К сожалению, у нас нет преподователей этого языка. </a>
-        <a>Можете выбрать другой.</a>
-        <q>Французский</q>
+        <q>Английский</q>
         <a state="/Welcome/Agree/LangMatch"/>
         <a state="/ToWhom"/>
-        
+        <q>Себе</q>
+        <a state="/ToWhom/ToMe"/>
+        <a state="/Why"/>
+        <a state="/Why"/>
+        <a state="/Why"/>
+        <q>Для себя</q>
+        <a state="/Why/Because"/>
+        <a state="/Price"/>
+        <q>Более 1500 рублей</q>
+        <a state="/Form"/>
+        <q>Индивидуальный</q>
+        <a state="/Native"/>
+        <q>Да</q>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a>Всё верно или хотите что-то изменить?</a>
+        <q>Всё верно</q>
+        <a state="/AskPhone"/>
+        <q>9879876576</q>
+        <a state="/Confirm"/>
+        <q>Да</q>
+        <a state="/AskName"/>
+        <q>Адам</q>
+        <a>Спасибо за информацию! В ближайшее время с вами свяжется специалист. Всего доброго!</a>
+    </test-case>
+    
+    <test-case>
+        <q>/start</q>
+        <a state="/Welcome"/>
+        <q>Да</q>
+        <a>Отлично!</a>
+        <a>Какой язык Вы хотите изучить? Мы преподаем английский, французский и немецкий.</a>
+        <q>Немецкий</q>
+        <a state="/Welcome/Agree/LangMatch"/>
+        <a state="/ToWhom"/>
+        <q>Себе</q>
+        <a state="/ToWhom/ToMe"/>
+        <a state="/Why"/>
+        <a state="/Why"/>
+        <a state="/Why"/>
+        <q>По работе</q>
+        <a state="/Why/Because"/>
+        <a state="/Price"/>
+        <q>До 700 рублей</q>
+        <a state="/Form"/>
+        <q>Индивидуальный</q>
+        <a state="/Native"/>
+        <q>Кто такой носитель</q>
+        <a state="/Native/WhoIsNative"/>
+        <a state="/Native"/>
+        <q>Нет</q>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a state="/Check"/>
+        <a>Всё верно или хотите что-то изменить?</a>
+        <q>Всё верно</q>
+        <a state="/AskPhone"/>
+        <q>9879876545</q>
+        <a state="/Confirm"/>
+        <q>Да</q>
+        <a state="/AskName"/>
+        <q>Исаак</q>
+        <a>Спасибо за информацию! В ближайшее время с вами свяжется специалист. Всего доброго!</a>
     </test-case>
     
     <test-case>

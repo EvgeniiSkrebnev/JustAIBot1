@@ -85,6 +85,11 @@ theme: /
                 $session.reason = $parseTree._reason
             a: Причина: {{$session.reason}}
             go!: /Price
+            
+        state: LocalNoMatchWhy
+            event: noMatch
+            a: Можете выбрать другую цель или воспользоваться опцией "Другое".
+            go: ..
     
     state: Price
         a: Каков ваш бюджет на одно занятие?
