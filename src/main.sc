@@ -175,11 +175,11 @@ theme: /
             q: (Изменить цену)
             a: Каков ваш бюджет на одно занятие?
             buttons:
-                "До 700 рублей" -> /PriceEnd
-                "700 - 1500 рублей" -> /PriceEnd
-                "Более 1500 рублей" -> /PriceEnd
+                "До 700 рублей" -> /PriceEnd1
+                "700 - 1500 рублей" -> /PriceEnd1
+                "Более 1500 рублей" -> /PriceEnd1
     
-        state: PriceEnd
+        state: PriceEnd1
             script:
                 $session.price = $request.query
             go!: /Check
