@@ -50,7 +50,7 @@ theme: /
                 q!: $lang
                 script:
                     $session.lang = $parseTree._lang
-                a: Отличный выбор! Ищем преподователя по {{$nlp.inflect($session.lang, 'datv')}}
+                a: Отличный выбор! Ищем преподавателя по {{$nlp.inflect($session.lang, 'datv')}}
                 go!: /ToWhom
         
         # Альтернативный путь №2: Нет языка, который нужен пользователю.
