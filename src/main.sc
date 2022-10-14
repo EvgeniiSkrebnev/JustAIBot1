@@ -41,6 +41,10 @@ theme: /
             q: $agree
             a: Отлично!
             a: Какой язык Вы хотите изучить? Мы преподаем английский, французский и немецкий.
+            buttons:
+                "Английский"
+                "Французский"
+                "Немецкий"
             
             state: LangMatch
                 q!: $lang
@@ -60,6 +64,9 @@ theme: /
         
     state: ToWhom
         a: Для кого ищете репетитора? Себе или ребенку?
+        buttons:
+            "Себе"
+            "Ребенку"
         
         state: ToMe
             q: $me
@@ -218,6 +225,8 @@ theme: /
             
     state: AskPhone || modal = true
         a: Для продолжения введите, пожалуйста, ваш номер телефона. С вами свяжется специалист по подбору репетитора.
+        if: $client.phone
+            go!: /Confirm
         buttons:
             "Отмена" -> /Cancel
             
@@ -297,3 +306,4 @@ theme: /
     state: Match
         event!: match
         a: {{$context.intent.answer}}
+
