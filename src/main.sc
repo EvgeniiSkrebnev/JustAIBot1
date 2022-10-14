@@ -258,10 +258,11 @@ theme: /
                 delete $session.probablyPhone;
             go!: /AskName
         
-         # Альтернативный путь №5: Пользователь ввел неверный номер и хочет его изменить.
+         # Альтернативный путь №5: Пользователь ввел неверный номер и/или хочет его изменить.
             
         state: PhoneDisagree
             q: (нет/неверно/не верно)
+            script: delete $client.phone
             go!: /AskPhone
             
         
@@ -306,4 +307,3 @@ theme: /
     state: Match
         event!: match
         a: {{$context.intent.answer}}
-
